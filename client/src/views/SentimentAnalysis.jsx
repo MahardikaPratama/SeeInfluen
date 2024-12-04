@@ -1,7 +1,7 @@
 import React from "react";
 import UserProfile from "../components/Profile";
 
-const SentimentAnalysis = () => {
+const SentimentAnalysis = ({ setActive }) => {
   const data = [
     {
       video: "Tangan AC mini Bambank Indomaret Simulator",
@@ -124,7 +124,10 @@ const SentimentAnalysis = () => {
                   {item.sentiment}
                 </td>
                 <td className="px-4 py-2 border-b">
-                  <button className="px-4 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">
+                  <button
+                    className="px-4 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
+                    onClick={() => setActive("sentimentDetail")}
+                  >
                     Detail
                   </button>
                 </td>

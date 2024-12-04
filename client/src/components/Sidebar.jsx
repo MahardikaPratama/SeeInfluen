@@ -1,9 +1,12 @@
 import React from "react";
 
-const Sidebar = () => {
+const Sidebar = ({ setActive }) => {
   return (
     <div className="w-80 px-12 h-screen shadow-md text-white">
-      <div className="p-6 flex items-center space-x-4">
+      <div
+        className="p-6 flex items-center space-x-4"
+        onClick={() => setActive("dashboard")}
+      >
         <div className="flex flex-ro text-white p-3 rounded-xl bg-[#5d5fef]">
           <svg
             width="50"
@@ -53,7 +56,7 @@ const Sidebar = () => {
       </div>
       <nav className="mt-8">
         <ul className="space-y-4 list-none">
-          <li>
+          <li onClick={() => setActive("dashboard")}>
             <a
               href="#"
               className="flex items-center space-x-4 py-3 px-6 rounded-lg bg-[#5d5fef]"
@@ -93,7 +96,7 @@ const Sidebar = () => {
               <span className="font-medium">Dashboard</span>
             </a>
           </li>
-          <li>
+          <li onClick={() => setActive("sentiment")}>
             <a
               href="#"
               className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791] "
@@ -223,7 +226,7 @@ const Sidebar = () => {
               <span className="font-medium">Posting Time</span>
             </a>
           </li>
-          <li>
+          <li onClick={() => setActive("trending")}>
             <a
               href="#"
               className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791]"
@@ -258,7 +261,7 @@ const Sidebar = () => {
               <span className="font-medium">Trending Topic</span>
             </a>
           </li>
-          <li>
+          <li onClick={() => setActive("estimation")}>
             <a
               href="#"
               className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791]"
@@ -304,7 +307,7 @@ const Sidebar = () => {
               <span className="font-medium">Ads Estimation</span>
             </a>
           </li>
-          <li>
+          <li onClick={() => setActive("ranking")}>
             <a
               href="#"
               className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791]"
