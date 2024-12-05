@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Estimation from "./views/AdEstimation";
@@ -9,20 +9,22 @@ import SentimentDetail from "./views/SentimentDetail";
 import Dashboard from "./views/Dashboard";
 
 function App() {
-  const [active, setActive] = useState("dashboard");
-
   return (
-    <>
+    <Router>
       <div className="flex flex-row">
-        <Sidebar setActive={setActive} />
-        {active === "dashboard" && <Dashboard />}
-        {active === "estimation" && <Estimation />}
-        {active === "trending" && <TrendingTopics />}
-        {active === "ranking" && <Ranking />}
-        {active === "sentiment" && <Sentiment setActive={setActive} />}
-        {active === "sentimentDetail" && <SentimentDetail />}
+        <Sidebar />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/estimation" element={<Estimation />} />
+            <Route path="/trending" element={<TrendingTopics />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/sentiment" element={<Sentiment />} />
+            <Route path="/sentiment-detail" element={<SentimentDetail />} />
+          </Routes>
+        </div>
       </div>
-    </>
+    </Router>
   );
 }
 
