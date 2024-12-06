@@ -36,8 +36,8 @@ const Dashboard = () => {
   return (
     <div className="w-full bg-gray-100 min-h-screen">
       <Header title={"Dashboard"} />
-      <div className="p-4">
-        <div className="container mx-auto p-6">
+      <div className="p-8">
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Stats Section */}
             <div className="col-span-1 bg-white shadow-md rounded-lg p-4">

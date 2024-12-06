@@ -24,7 +24,7 @@ const AdEstimation = () => {
   return (
     <div className="w-full bg-gray-100 min-h-screen">
       <Header title={"Ad Estimation"} />
-      <div className="p-4">
+      <div className="p-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex place-self-center items-center mb-4">
             <div className="flex items-center gap-4">

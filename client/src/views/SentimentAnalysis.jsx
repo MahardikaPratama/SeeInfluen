@@ -1,8 +1,7 @@
 import React from "react";
-import UserProfile from "../components/Profile";
+import { Link } from "react-router-dom";
 import FilterDropdown from "../components/FilterDropdown";
 import IcClock from "../assets/IcClock";
-import IcChat from "../assets/IcChat";
 import Header from "../components/Header";
 import IcArrowDown from "../assets/IcArrowDown";
 import Pagination from "../components/Pagination";
@@ -36,7 +35,7 @@ const SentimentAnalysis = ({ setActive }) => {
     <div className="w-full bg-gray-100 min-h-screen">
       <Header title="Sentiment Analysis" />
 
-      <div className="p-4">
+      <div className="p-8">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center mb-4 gap-2">
             <div className="flex items-center gap-4">
@@ -92,12 +91,11 @@ const SentimentAnalysis = ({ setActive }) => {
                     {item.sentiment}
                   </td>
                   <td className="px-4 py-2 border-b">
-                    <button
-                      className="px-4 py-1 bg-purple-500 text-white rounded hover:bg-purple-600"
-                      onClick={() => setActive("sentimentDetail")}
-                    >
-                      Detail
-                    </button>
+                    <Link to="/sentiment-detail">
+                      <button className="px-4 py-1 bg-purple-500 text-white rounded hover:bg-purple-600">
+                        Detail
+                      </button>
+                    </Link>
                   </td>
                 </tr>
               ))}

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   return (
-    <div className="w-80 px-12 h-screen shadow-md text-white">
+    <div className="w-80 px-12 h-full text-white">
       <Link to="/">
         <div className="p-6 flex items-center space-x-4">
           <div className="flex flex-row text-white p-3 rounded-xl bg-[#5d5fef]">
@@ -351,57 +351,59 @@ const Sidebar = () => {
             </Link>
           </li>
           <li>
-            <a
-              href="#"
-              className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791]"
-            >
-              <svg
-                viewBox="0 0 24 24"
-                fill="#000000"
-                xmlns="http://www.w3.org/2000/svg"
-                transform="matrix(-1, 0, 0, 1, 0, 0)"
-                height="32px"
-                width="32px"
-                className="bg-[#151d48] rounded-full p-1"
+            <Link to="/compare">
+              <a
+                href="#"
+                className="flex items-center space-x-4 py-3 px-6 rounded-lg hover:bg-gray-700 text-[#737791]"
               >
-                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <path
-                    d="M1 20V19C1 15.134 4.13401 12 8 12V12C11.866 12 15 15.134 15 19V20"
-                    stroke="#ffffff"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  ></path>{" "}
-                  <path
-                    d="M13 14V14C13 11.2386 15.2386 9 18 9V9C20.7614 9 23 11.2386 23 14V14.5"
-                    stroke="#ffffff"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  ></path>{" "}
-                  <path
-                    d="M8 12C10.2091 12 12 10.2091 12 8C12 5.79086 10.2091 4 8 4C5.79086 4 4 5.79086 4 8C4 10.2091 5.79086 12 8 12Z"
-                    stroke="#ffffff"
-                    strokeWidth="1.5"
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="#000000"
+                  xmlns="http://www.w3.org/2000/svg"
+                  transform="matrix(-1, 0, 0, 1, 0, 0)"
+                  height="32px"
+                  width="32px"
+                  className="bg-[#151d48] rounded-full p-1"
+                >
+                  <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                  ></path>{" "}
-                  <path
-                    d="M18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6C15 7.65685 16.3431 9 18 9Z"
-                    stroke="#ffffff"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></path>{" "}
-                </g>
-              </svg>
-              <span className="font-medium">Compare</span>
-            </a>
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      d="M1 20V19C1 15.134 4.13401 12 8 12V12C11.866 12 15 15.134 15 19V20"
+                      stroke="#ffffff"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    ></path>{" "}
+                    <path
+                      d="M13 14V14C13 11.2386 15.2386 9 18 9V9C20.7614 9 23 11.2386 23 14V14.5"
+                      stroke="#ffffff"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    ></path>{" "}
+                    <path
+                      d="M8 12C10.2091 12 12 10.2091 12 8C12 5.79086 10.2091 4 8 4C5.79086 4 4 5.79086 4 8C4 10.2091 5.79086 12 8 12Z"
+                      stroke="#ffffff"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>{" "}
+                    <path
+                      d="M18 9C19.6569 9 21 7.65685 21 6C21 4.34315 19.6569 3 18 3C16.3431 3 15 4.34315 15 6C15 7.65685 16.3431 9 18 9Z"
+                      stroke="#ffffff"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    ></path>{" "}
+                  </g>
+                </svg>
+                <span className="font-medium">Compare</span>
+              </a>
+            </Link>
           </li>
         </ul>
       </nav>
@@ -409,4 +411,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default React.memo(Sidebar);

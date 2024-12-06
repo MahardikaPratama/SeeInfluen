@@ -7,6 +7,7 @@ import Ranking from "./views/Ranking";
 import Sentiment from "./views/SentimentAnalysis";
 import SentimentDetail from "./views/SentimentDetail";
 import Dashboard from "./views/Dashboard";
+import Compare from "./views/Compare";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/sentiment" element={<Sentiment />} />
             <Route path="/sentiment-detail" element={<SentimentDetail />} />
+            <Route path="/compare" element={<Compare />} />
           </Routes>
         </div>
       </div>
