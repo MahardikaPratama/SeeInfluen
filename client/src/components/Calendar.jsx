@@ -1,6 +1,7 @@
 import React from "react";
 import IcLeftArrow from "../assets/IcLeftArrow";
 import IcRightArrow from "../assets/IcRightArrow";
+import PopupEstimation from "./PopupEstimation";
 
 function Calendar() {
   const colors = ["bg-[#9130bf]", "bg-[#312437]", "bg-[#482559]"];
@@ -45,8 +46,12 @@ function Calendar() {
             key={index}
             className={`${
               colors[index % colors.length]
-            } h-32 border border-collapse border-dashed border-zinc-100`}
-          ></div>
+            } h-32 border border-collapse border-dashed border-zinc-100 relative`}
+          >
+            {index + 1}
+
+            <PopupEstimation />
+          </div>
         ))}
       </div>
     </>
