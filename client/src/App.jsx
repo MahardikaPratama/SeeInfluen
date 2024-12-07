@@ -8,6 +8,7 @@ import Sentiment from "./views/SentimentAnalysis";
 import SentimentDetail from "./views/SentimentDetail";
 import Dashboard from "./views/Dashboard";
 import Compare from "./views/Compare";
+import PostingTime from "./views/PostingTime";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/sentiment" element={<Sentiment />} />
             <Route path="/sentiment-detail" element={<SentimentDetail />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/posting-time" element={<PostingTime />} />
           </Routes>
         </div>
       </div>
