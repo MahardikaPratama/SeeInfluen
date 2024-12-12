@@ -15,4 +15,4 @@ const Player = ({ videoUrl, title }) => {
   );
 };
 
-export default Player;
+export default React.memo(Player);

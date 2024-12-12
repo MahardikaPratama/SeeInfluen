@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import Sidebar from "./components/Sidebar";
 import Estimation from "./views/AdEstimation";
@@ -7,22 +7,28 @@ import Ranking from "./views/Ranking";
 import Sentiment from "./views/SentimentAnalysis";
 import SentimentDetail from "./views/SentimentDetail";
 import Dashboard from "./views/Dashboard";
+import Compare from "./views/Compare";
+import PostingTime from "./views/PostingTime";
 
 function App() {
-  const [active, setActive] = useState("dashboard");
-
   return (
-    <>
+    <Router>
       <div className="flex flex-row">
-        <Sidebar setActive={setActive} />
-        {active === "dashboard" && <Dashboard />}
-        {active === "estimation" && <Estimation />}
-        {active === "trending" && <TrendingTopics />}
-        {active === "ranking" && <Ranking />}
-        {active === "sentiment" && <Sentiment setActive={setActive} />}
-        {active === "sentimentDetail" && <SentimentDetail />}
+        <Sidebar />
+        <div className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/estimation" element={<Estimation />} />
+            <Route path="/trending" element={<TrendingTopics />} />
+            <Route path="/ranking" element={<Ranking />} />
+            <Route path="/sentiment" element={<Sentiment />} />
+            <Route path="/sentiment-detail" element={<SentimentDetail />} />
+            <Route path="/compare" element={<Compare />} />
+            <Route path="/posting-time" element={<PostingTime />} />
+          </Routes>
+        </div>
       </div>
-    </>
+    </Router>
   );
 }
 

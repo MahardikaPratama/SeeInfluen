@@ -1,5 +1,6 @@
 import React from "react";
 import UserProfile from "../components/Profile";
+import Header from "../components/Header";
 
 const AdEstimation = () => {
   const data = [
@@ -21,81 +22,49 @@ const AdEstimation = () => {
   ];
 
   return (
-    <div className="p-8 w-full bg-gray-100 min-h-screen">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold text-gray-700">Ad Estimation</h2>
-        <UserProfile />
-      </div>
-
-      <div className="bg-white rounded-lg shadow p-6">
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-4">
-            <label htmlFor="show" className="text-sm text-gray-600">
-              Show:
-            </label>
-            <select
-              id="show"
-              className="border border-gray-300 rounded px-3 py-2 text-sm"
-            >
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
-            </select>
+    <div className="w-full bg-gray-100 min-h-screen">
+      <Header title={"Ad Estimation"} />
+      <div className="p-8">
+        <div className="bg-white rounded-lg shadow p-6">
+          <div className="flex place-self-center items-center mb-4">
+            <div className="flex items-center gap-4">
+              <input type="date" className="rounded px-6 py-2 text-sm border" />
+              <span className="text-gray-500">to</span>
+              <input type="date" className="rounded px-6 py-2 text-sm border" />
+              <button className="bg-gray-800 text-white px-8 py-2 rounded">
+                Filter
+              </button>
+            </div>
           </div>
-          <input
-            type="text"
-            placeholder="Search..."
-            className="border border-gray-300 rounded px-4 py-2 text-sm w-1/3"
-          />
-        </div>
 
-        <div className="flex justify-between items-center mb-4">
-          <div className="flex items-center gap-4">
-            <input type="date" className="rounded px-3 py-2 text-sm border" />
-            <span className="text-gray-500">to</span>
-            <input type="date" className="rounded px-3 py-2 text-sm border" />
-            <button className="bg-gray-800 text-white px-4 py-2 rounded">
-              Filter
-            </button>
-          </div>
-        </div>
-
-        <table className="w-full border-none border border-gray-200">
-          <thead>
-            <tr className="bg-[rgb(114,116,240)] text-white">
-              <th className="px-4 py-2 text-left">Date</th>
-              <th className="px-4 py-2 text-left">Video Views</th>
-              <th className="px-4 py-2 text-left">Estimated Earnings</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, index) => (
-              <tr key={index} className="even:bg-[rgba(168,169,255,0.22)]">
-                <td className="px-4 py-2">{row.date}</td>
-                <td className="px-4 py-2">{row.views}</td>
-                <td className="px-4 py-2">{row.earnings}</td>
+          <table className="w-full border-none border border-gray-200">
+            <thead>
+              <tr className="text-black">
+                <th className="px-4 py-2 text-left">Date</th>
+                <th className="px-4 py-2 text-left">Video Views</th>
+                <th className="px-4 py-2 text-left">Estimated Earnings</th>
               </tr>
-            ))}
-          </tbody>
-          <tbody className="">
-            {summary.map((row, index) => (
-              <tr key={index} className="font-semibold">
-                <td className="px-4 py-2">{row.label}</td>
-                <td className="px-4 py-2">{row.views}</td>
-                <td className="px-4 py-2">{row.earnings}</td>
+            </thead>
+            <tbody>
+              {data.map((row, index) => (
+                <tr key={index} className="even:bg-[rgba(168,169,255,0.22)]">
+                  <td className="px-4 py-2">{row.date}</td>
+                  <td className="px-4 py-2">{row.views}</td>
+                  <td className="px-4 py-2">{row.earnings}</td>
+                </tr>
+              ))}
+              <tr>
+                <td colSpan="3" className="py-4"></td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-
-        <div className="flex justify-between items-center mt-4">
-          <p className="text-sm text-gray-600">Showing 1 to 9 of 9 entries</p>
-          <div className="flex gap-2">
-            <button className="px-4 py-2 bg-gray-200 rounded text-sm">1</button>
-            <button className="px-4 py-2 bg-gray-300 rounded text-sm">
-              Next
-            </button>
-          </div>
+              {summary.map((row, index) => (
+                <tr key={index} className="font-semibold">
+                  <td className="px-4 py-2">{row.label}</td>
+                  <td className="px-4 py-2">{row.views}</td>
+                  <td className="px-4 py-2">{row.earnings}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
