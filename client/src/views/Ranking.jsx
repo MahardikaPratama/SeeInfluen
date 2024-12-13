@@ -8,17 +8,18 @@ import IcClock from "../assets/IcClock";
 
 const TrendingTopics = () => {
   const topics = [
-    { username: "john_doe", country: "USA" },
-    { username: "jane_smith", country: "Canada" },
-    { username: "mike_jones", country: "UK" },
-    { username: "sara_lee", country: "Australia" },
-    { username: "tom_hardy", country: "New Zealand" },
-    { username: "emma_watson", country: "France" },
-    { username: "chris_evans", country: "Germany" },
-    { username: "scarlett_johansson", country: "Sweden" },
-    { username: "robert_downey", country: "Italy" },
-    { username: "chris_hemsworth", country: "Norway" },
+    { username: "john_doe", country: "USA", score: 95 },
+    { username: "jane_smith", country: "Canada", score: 88 },
+    { username: "mike_jones", country: "UK", score: 92 },
+    { username: "sara_lee", country: "Australia", score: 90 },
+    { username: "tom_hardy", country: "New Zealand", score: 85 },
+    { username: "emma_watson", country: "France", score: 89 },
+    { username: "chris_evans", country: "Germany", score: 91 },
+    { username: "scarlett_johansson", country: "Sweden", score: 87 },
+    { username: "robert_downey", country: "Italy", score: 93 },
+    { username: "chris_hemsworth", country: "Norway", score: 94 },
   ];
+  
 
   return (
     <div className="w-full bg-gray-100 min-h-screen">
@@ -55,11 +56,6 @@ const TrendingTopics = () => {
 
           <div className="flex items-center gap-4">
             <FilterDropdown
-              icon={<IcChat />}
-              options={["Grade", "Subcriber"]}
-              color="#624de3"
-            />
-            <FilterDropdown
               icon={<IcClock />}
               options={["Indonesia", "Malaysia", "Singapore"]}
               color="#624de3"
@@ -69,20 +65,24 @@ const TrendingTopics = () => {
           <table className="w-full border-none border border-gray-200 my-4">
             <thead>
               <tr className="bg-[rgb(114,116,240)] text-white">
-                <th className=" px-4 py-2 text-left">Rank</th>
-                <th className=" px-4 py-2 text-left">Username</th>
-                <th className=" px-4 py-2 text-left">Country</th>
+                <th className="px-4 py-2 text-left">Rank</th>
+                <th className="px-4 py-2 text-left">Username</th>
+                <th className="px-4 py-2 text-left">Score</th>
+                <th className="px-4 py-2 text-left">Country</th>
               </tr>
             </thead>
+
             <tbody>
               {topics.map((row, index) => (
                 <tr key={index} className="even:bg-[rgba(168,169,255,0.22)]">
                   <td className="px-4 py-2">{index + 1}</td>
                   <td className="px-4 py-2">{row.username}</td>
+                  <td className="px-4 py-2">{row.score}</td>
                   <td className="px-4 py-2">{row.country}</td>
                 </tr>
               ))}
             </tbody>
+
           </table>
 
           <Pagination />
