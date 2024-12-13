@@ -9,6 +9,10 @@ class InfluencerService {
         return http.get(`/rankings?limit=${limit}&offset=${offset}`);
     }
 
+    getTrending(limit, offset) {
+        return http.get(`/trends?limit=${limit}&offset=${offset}`);
+    }
+
     filterRanking(limit, country_id, offset) {
         return http.get(`/rankings/filter/?limit=${limit}&country_id=${country_id}&offset=${offset}`);
     }

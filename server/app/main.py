@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.models.database import db  # Import database instance
 from app.config import logger  # Import logger
 # from app.routers import trend, sentiment, recommendations, adsense, ranking, benchmarking, dashboard
-from app.routers import dashboard, ranking
+from app.routers import dashboard, ranking, trend
 
 # Initialize FastAPI app
 app = FastAPI(title="Social Media Monitoring API", version="1.0.0")
@@ -22,7 +22,7 @@ app.add_middleware(
 )
 
 # Include routers
-# app.include_router(trend.router, prefix="/trends", tags=["Trends"])
+app.include_router(trend.router, prefix="/trends", tags=["Trends"])
 # app.include_router(sentiment.router, prefix="/sentiments", tags=["Sentiments"])
 # app.include_router(recommendations.router, prefix="/recommendations", tags=["Recommendations"])
 # app.include_router(adsense.router, prefix="/adsense", tags=["Adsense"])
