@@ -80,13 +80,12 @@ def calculate_ranking_and_update():
     return result
 
 
-def get_ranking_data(limit: int):
-    # Ambil data influencer yang sudah diurutkan berdasarkan ranking
+def get_ranking_data(limit: int, offset: int):
+    total = db["influencers"].count_documents({})
     influencers = db["influencers"].find(
         {}, {"_id": 0, "influencer_id": 1, "username": 1, "ranking": 1, "score": 1, "country_id": 1}
-    ).sort("ranking", 1).limit(limit)
+    ).sort("ranking", 1).skip(offset).limit(limit)
 
-    # Tambahkan informasi nama negara
     countries = {c["country_id"]: c["country_name"] for c in db["countries"].find()}
     result = []
     for influencer in influencers:
@@ -98,16 +97,15 @@ def get_ranking_data(limit: int):
             "country_name": countries.get(influencer["country_id"], "Unknown"),
         })
 
-    return result
+    return {"total": total, "data": result}
 
-def filter_by_country(limit: int, country_id: str):
-    # Ambil data influencer yang sudah diurutkan berdasarkan ranking
+def filter_by_country(limit: int, country_id: str, offset: int):
+    total = db["influencers"].count_documents({"country_id": country_id})
     influencers = db["influencers"].find(
         {"country_id": country_id},
         {"_id": 0, "influencer_id": 1, "username": 1, "ranking": 1, "score": 1, "country_id": 1}
-    ).sort("ranking", 1).limit(limit)
+    ).sort("ranking", 1).skip(offset).limit(limit)
 
-    # Tambahkan informasi nama negara
     countries = {c["country_id"]: c["country_name"] for c in db["countries"].find()}
     result = []
     for influencer in influencers:
@@ -119,28 +117,35 @@ def filter_by_country(limit: int, country_id: str):
             "country_name": countries.get(influencer["country_id"], "Unknown"),
         })
 
-    return result
+    return {"total": total, "data": result}
 
-def search_by_username(username: str):
-    # Cari influencer berdasarkan username
-    influencer = db["influencers"].find_one(
-        {"username": username},
+def search_by_username(username: str, limit: int, offset: int):
+    total = db["influencers"].count_documents({"username": {"$regex": username, "$options": "i"}})
+    influencers = db["influencers"].find(
+        {"username": {"$regex": username, "$options": "i"}},
         {"_id": 0, "influencer_id": 1, "username": 1, "ranking": 1, "score": 1, "country_id": 1}
-    )
+    ).skip(offset).limit(limit)
     
-    if not influencer:
-        raise HTTPException(status_code=404, detail="Influencer tidak ditemukan.")
+    influencers = list(influencers)
     
-    # Tambahkan informasi nama negara
-    country = db["countries"].find_one({"country_id": influencer["country_id"]})
-    country_name = country["country_name"] if country else "Unknown"
+    if not influencers:
+        raise HTTPException(status_code=404, detail="Tidak ada influencer yang ditemukan.")
     
-    return {
-        "influencer_id": influencer["influencer_id"],
-        "username": username,
-        "ranking": influencer["ranking"],
-        "score": influencer["score"],
-        "country_name": country_name,
-    }
+    countries = {c["country_id"]: c["country_name"] for c in db["countries"].find()}
+    result = []
+    for influencer in influencers:
+        result.append({
+            "influencer_id": influencer["influencer_id"],
+            "username": influencer["username"],
+            "ranking": influencer["ranking"],
+            "score": influencer["score"],
+            "country_name": countries.get(influencer["country_id"], "Unknown"),
+        })
     
+    return {"total": total, "data": result}
+
     
+def get_countries():
+    # Ambil daftar negara
+    countries = db["countries"].find({}, {"_id": 0, "country_id": 1, "country_name": 1})
+    return list(countries)

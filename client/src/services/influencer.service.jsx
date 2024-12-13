@@ -5,16 +5,20 @@ class InfluencerService {
         return http.get(`/dashboard?influencer_id=${influencer_id}`);
     }
 
-    getRanking(limit) {
-        return http.get(`/ranking?limit=${limit}`);
+    getRanking(limit, offset) {
+        return http.get(`/rankings?limit=${limit}&offset=${offset}`);
     }
 
-    filterRanking(limit, country_id) {
-        return http.get(`/ranking/filter/?limit=${limit}&country_id=${country_id}`);
+    filterRanking(limit, country_id, offset) {
+        return http.get(`/rankings/filter/?limit=${limit}&country_id=${country_id}&offset=${offset}`);
     }
 
-    searchRanking(username) {
-        return http.get(`/ranking/search/?username=${username}`);
+    searchRanking(username, limit, offset) {
+        return http.get(`/rankings/search/?username=${username}&limit=${limit}&offset=${offset}`);
+    }
+
+    getCountries() {
+        return http.get("/rankings/countries");
     }
 }
 

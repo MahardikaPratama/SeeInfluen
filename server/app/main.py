@@ -10,8 +10,7 @@ app = FastAPI(title="Social Media Monitoring API", version="1.0.0")
 
 # Configure CORS
 origins = [
-    "http://localhost:5173",  # Allow your frontend's URL
-    "http://127.0.0.1:8000",  # Allow your backend's URL (optional, can be removed if not needed)
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
