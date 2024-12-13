@@ -35,7 +35,7 @@ def migrate_history_metrics():
             metric = {
                 'date': convert_date(row['date']),
                 'view_count': int(row['view_count']),
-                'subcriber_count': int(row['subcriber_count']),
+                'subscriber_count': int(row['subcriber_count']),
                 'video_count': int(row['video_count'])
             }
 

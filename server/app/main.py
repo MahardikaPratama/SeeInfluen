@@ -1,33 +1,47 @@
-from fastapi import FastAPI, HTTPException
-import logging
-# from app.routers import trend, sentiment, recommendation, revenue, ranking, benchmark, dashboard
-from app.config import db  
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.models.database import db  # Import database instance
+from app.config import logger  # Import logger
+# from app.routers import trend, sentiment, recommendations, adsense, ranking, benchmarking, dashboard
+from app.routers import dashboard
 
-# Initialize the FastAPI app
-app = FastAPI()
+# Initialize FastAPI app
+app = FastAPI(title="Social Media Monitoring API", version="1.0.0")
 
-# Set up logging configuration
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
+# Configure CORS
+origins = [
+    "http://localhost:5173",  # Allow your frontend's URL
+    "http://127.0.0.1:8000",  # Allow your backend's URL (optional, can be removed if not needed)
+]
 
-# Check if the database connection is established
-if db is None:
-    logger.critical("Database connection failed. Exiting the application.")
-    raise HTTPException(status_code=500, detail="Database connection failed")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # List of allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
-# Include the routers for different features
-# app.include_router(trend.router, prefix="/trend", tags=["trend"])
-# app.include_router(sentiment.router, prefix="/sentiment", tags=["sentiment"])
-# app.include_router(recommendation.router, prefix="/recommendation", tags=["recommendation"])
-# app.include_router(revenue.router, prefix="/revenue", tags=["revenue"])
-# app.include_router(ranking.router, prefix="/ranking", tags=["ranking"])
-# app.include_router(benchmark.router, prefix="/benchmark", tags=["benchmark"])
-# app.include_router(dashboard.router, prefix="/dashboard", tags=["dashboard"])
+# Include routers
+# app.include_router(trend.router, prefix="/trends", tags=["Trends"])
+# app.include_router(sentiment.router, prefix="/sentiments", tags=["Sentiments"])
+# app.include_router(recommendations.router, prefix="/recommendations", tags=["Recommendations"])
+# app.include_router(adsense.router, prefix="/adsense", tags=["Adsense"])
+# app.include_router(ranking.router, prefix="/rankings", tags=["Rankings"])
+# app.include_router(benchmarking.router, prefix="/benchmarking", tags=["Benchmarking"])
+app.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 
-# Add a basic root endpoint to check if the app is running
-@app.get("/")
-async def root():
-    logger.info("Root endpoint hit.")
-    return {"message": "Welcome to the Social Media Monitoring API!"}
+# Health check endpoint
+@app.get("/", tags=["Health Check"])
+async def health_check():
+    if db:  # Check if database connection exists
+        logger.info("Health check passed")
+        return {"status": "ok", "message": "API is running and connected to the database"}
+    else:
+        logger.critical("Database connection failed")
+        return {"status": "error", "message": "Database connection failed"}
 
-# Add more routes, middlewares, or event handlers as needed
+# Start the application with Uvicorn (if running directly)
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
