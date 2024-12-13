@@ -1,5 +1,5 @@
 # dashboard_service.py
-from datetime import datetime, timedelta
+from datetime import datetime
 from app.models.database import db
 from fastapi import HTTPException
 

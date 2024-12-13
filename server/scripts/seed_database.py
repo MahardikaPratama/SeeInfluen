@@ -21,7 +21,9 @@ def migrate_influencers():
                 'username': row['username'],
                 'created_at': convert_date(row['created_at']),
                 'country_id': row['country_id'],
-                'history_metrics': []  # Placeholder for embedded data from history_metrics
+                'history_metrics': [],
+                'score' : None,
+                'ranking' : None,
             }
             influencers.append(influencer)
     
