@@ -30,8 +30,22 @@ const Ranking = () => {
     },
     keepPreviousData: true,
   });
-  console.log(ranking);
+
+  // Cek jika data ranking tidak ada
   const totalPages = ranking ? Math.ceil(ranking.total / limit) : 1;
+  const noDataMessage = ranking?.data.length === 0 ? "Tidak terdapat data influencer." : "";
+
+  // Cek jika tidak ada influencer berdasarkan negara
+  const noCountryDataMessage =
+    countryId && ranking?.data.filter((row) => row.country_name === countryId).length === 0
+      ? "Tidak ada influencer dari negara yang dipilih."
+      : "";
+
+  // Cek jika tidak ada influencer berdasarkan username
+  const noUsernameDataMessage =
+    searchTerm && ranking?.data.filter((row) => row.username.toLowerCase() === searchTerm.toLowerCase()).length === 0
+      ? "Tidak ada influencer dari username yang dimasukkan."
+      : "";
 
   const handleCountryChange = (e) => {
     setCountryId(e.target.value);
@@ -97,6 +111,11 @@ const Ranking = () => {
               onChange={handleCountryChange}
             />
           </div>
+
+          {/* Tampilkan pesan error jika data tidak ditemukan */}
+          {noDataMessage && <p className="text-red-500">{noDataMessage}</p>}
+          {noCountryDataMessage && <p className="text-red-500">{noCountryDataMessage}</p>}
+          {noUsernameDataMessage && <p className="text-red-500">{noUsernameDataMessage}</p>}
 
           <table className="w-full border-none border border-gray-200 my-4">
             <thead>
