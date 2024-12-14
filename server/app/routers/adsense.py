@@ -5,11 +5,12 @@ router = APIRouter()
 
 @router.get("/", tags=["Adsense"])
 async def get_adsense(
+    influencer_id: str = Query(..., description="Influencer ID"),
     date_start: str = Query(..., description="Start date for the adsense data"),
     date_end: str = Query(..., description="End date for the adsense data")
 ):
     try:
-        adsense_data = get_adsense_data(date_start, date_end)
+        adsense_data = get_adsense_data(influencer_id, date_start, date_end)
         return adsense_data
     except HTTPException as e:
         raise e

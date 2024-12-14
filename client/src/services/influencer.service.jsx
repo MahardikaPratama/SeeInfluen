@@ -24,6 +24,10 @@ class InfluencerService {
     getCountries() {
         return http.get("/rankings/countries");
     }
+
+    get_adsense(influencer_id, date_start, date_end) {
+        return http.get(`/adsense?influencer_id=${influencer_id}&date_start=${date_start}&date_end=${date_end}`);
+    }
 }
 
 export default new InfluencerService();
