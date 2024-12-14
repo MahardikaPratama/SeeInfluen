@@ -1,10 +1,11 @@
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx,ts,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "hero-background": "url('/src/assets/hero.png')",
+      },
+    },
   },
   plugins: [],
 };
