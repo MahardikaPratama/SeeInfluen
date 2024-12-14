@@ -3,7 +3,7 @@ import pymongo
 from datetime import datetime
 
 # Connect to MongoDB
-client = pymongo.MongoClient("mongodb://mongo:pfMICLIpSUfoBFtLSDLwhNKPLiQEjmQj@autorack.proxy.rlwy.net:33389")
+client = pymongo.MongoClient("mongodb://localhost:27017/")
 db = client['seeInfluen_db']
 
 # Helper function to convert date strings to datetime objects
