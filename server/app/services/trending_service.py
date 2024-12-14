@@ -9,21 +9,28 @@ from fastapi import HTTPException
 from collections import Counter
 from datetime import datetime
 import logging
-from app.config import REDIS_HOST, REDIS_PORT, REDIS_DB
+from app.config import REDIS_HOST, REDIS_PORT, REDIS_DB, REDIS_PASSWORD
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-# Setup koneksi Redis menggunakan konfigurasi dari .env
-redis_client = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB, decode_responses=True)
+# Setup Redis connection with authentication
+redis_client = redis.StrictRedis(
+    host=REDIS_HOST,
+    port=REDIS_PORT,
+    db=REDIS_DB,
+    password=REDIS_PASSWORD, 
+    decode_responses=True
+)
+
 
 # Setup IndoBERT Model for Bahasa Indonesia
 tokenizer = BertTokenizer.from_pretrained('indolem/indobert-base-uncased')
 model = BertModel.from_pretrained('indolem/indobert-base-uncased')
 
 # YouTube API key
-YOUTUBE_API_KEY = "AIzaSyB13bZ-Ydw__76mOUYF9iap8ZPxz3yDssg"
+YOUTUBE_API_KEY = "AIzaSyCndbg6Hu8UsyiNAcj9l11fT_JZIPjiWbU"
 
 def get_trending_data(limit: int = 10, offset: int = 0):
     logger.info("Fetching trending data...")
