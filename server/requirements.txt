@@ -12,4 +12,3 @@ transformers==4.35.0
 torch==2.1.0
 google-api-python-client
 numpy==1.24.3  # Pastikan kompatibel dengan PyTorch
-motor
