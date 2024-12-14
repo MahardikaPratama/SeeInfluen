@@ -182,15 +182,17 @@
   <li><strong>Fill in the <code>.env</code> file inside <b>server</b> folder with your own configuration.</strong></li>
 </ol>
 
-### <h1 style="text-align: center; color: #2196F3;">Installation (Local)</h1>
+### <h1>Installation (Local)</h1>
 <p style="font-size: 18px;">Make sure you have the following software installed on your computer:</p>
 
 <ul id="installation-local" style="font-size: 16px; line-height: 1.6;">
   <li><strong>MongoDB</strong><br>
       MongoDB is used as the database for this application. Download it from <a href="https://www.mongodb.com/try/download/community" target="_blank">here</a>.
   </li>
+  <li><strong>Redis</strong><br>
+      Redis is used for caching in this application. Download it from <a href="https://redis.io/download" target="_blank">here</a>.
+  </li>
 </ul>
-
 
 <p style="font-size: 16px;">Run these commands:</p>
 
@@ -213,6 +215,19 @@ python seed_database.py  # Populate the database
 cd ..
 uvicorn app.main:app --reload
 </code></pre>
+
+<p style="font-size: 16px;">To start Redis, run the following command after installing it:</p>
+
+<pre><code>redis-server</code></pre>
+
+<p style="font-size: 16px;">Verify if Redis is running by using the following command:</p>
+
+<pre><code>redis-cli ping</code></pre>
+
+<p style="font-size: 16px;">If Redis is working, you should see a response: <strong>PONG</strong></p>
+
+
+
 
 
 
