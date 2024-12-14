@@ -9,7 +9,7 @@ app = FastAPI(title="Social Media Monitoring API", version="1.0.0")
 
 # Configure CORS
 origins = [
-    "http://localhost:5173",
+    "http://localhost:5173", "https://see-influen.vercel.app/"
 ]
 
 app.add_middleware(
