@@ -28,6 +28,12 @@ class InfluencerService {
     get_adsense(influencer_id, date_start, date_end) {
         return http.get(`/adsense?influencer_id=${influencer_id}&date_start=${date_start}&date_end=${date_end}`);
     }
+
+    // get benchmark tapi username optional
+    get_benchmarking(username1, username2, username3) {
+        return http.get(`/benchmarking?username1=${username1}&username2=${username2}&username3=${username3}`);
+    }
+
 }
 
 export default new InfluencerService();

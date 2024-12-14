@@ -12,7 +12,7 @@ function CompareCard({ influencer }) {
         />
         <div>
           <p className="text-lg font-semibold">{influencer.username}</p>
-          <p className="text-sm text-gray-500">{influencer.date}</p>
+          <p className="text-sm text-gray-500">{influencer.created_at}</p>
         </div>
       </div>
       <table className="w-full text-center">
@@ -21,15 +21,13 @@ function CompareCard({ influencer }) {
             <th className="p-2">Ranking</th>
             <th className="p-2">Country</th>
             <th className="p-2">Watch</th>
-            <th className="p-2">Ads</th>
           </tr>
         </thead>
         <tbody>
           <tr className="bg-[#f7f6fe]">
-            <td className="py-1 px-2">{influencer.rank}</td>
+            <td className="py-1 px-2">{influencer.ranking}</td>
             <td className="py-1 px-2">{influencer.country}</td>
             <td className="py-1 px-2">{influencer.views}</td>
-            <td className="py-1 px-2">{influencer.ads}</td>
           </tr>
         </tbody>
       </table>

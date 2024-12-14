@@ -91,18 +91,18 @@ const AdEstimation = () => {
                 <tr className="font-semibold">
                   <td className="px-4 py-2">Daily Average</td>
                   <td className="px-4 py-2">{data?.data?.daily_avg?.views}</td>
-                  <td className="px-4 py-2">{data?.data?.daily_avg?.estimated_min_revenue}</td>
+                  <td className="px-4 py-2">{`${data?.data?.daily_avg?.estimated_min_revenue} - ${data?.data?.daily_avg?.estimated_max_revenue}`}</td>
                 </tr>
                 {/* Repeat for Weekly and Monthly summary */}
                 <tr className="font-semibold">
                   <td className="px-4 py-2">Weekly Average</td>
                   <td className="px-4 py-2">{data?.data?.weekly_avg?.views}</td>
-                  <td className="px-4 py-2">{data?.data?.weekly_avg?.estimated_min_revenue}</td>
+                  <td className="px-4 py-2">{`${data?.data?.weekly_avg?.estimated_min_revenue} - ${data?.data?.weekly_avg?.estimated_max_revenue}`}</td>
                 </tr>
                 <tr className="font-semibold">
                   <td className="px-4 py-2">Monthly Average</td>
                   <td className="px-4 py-2">{data?.data?.monthly_avg?.views}</td>
-                  <td className="px-4 py-2">{data?.data?.monthly_avg?.estimated_min_revenue}</td>
+                  <td className="px-4 py-2">{`${data?.data?.monthly_avg?.estimated_min_revenue} - ${data?.data?.monthly_avg?.estimated_max_revenue}`}</td>
                 </tr>
               </tbody>
             </table>

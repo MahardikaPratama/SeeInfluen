@@ -1,99 +1,226 @@
-import React from "react";
 import Header from "../components/Header";
 import CompareCard from "../components/CompareCard";
 import Chart from "../components/Chart";
+import influencerService from "../services/influencer.service";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+
+// Query function to fetch benchmarking data
+const fetchBenchmarkingData = async (username1, username2, username3) => {
+  if (username1 || username2 || username3) {
+    return influencerService.get_benchmarking(username1, username2, username3);
+  }
+  return Promise.resolve(null);
+};
 
 function Compare() {
-  const influencers = [
-    {
-      username: "john_doe",
-      country: "USA",
-      grade: "A",
-      views: "50000",
-      ads: "250000",
-      rank: "1",
-      date: "2021-09-01",
-    },
-    {
-      username: "lisa_smith",
-      country: "Canada",
-      grade: "B",
-      views: "40000",
-      ads: "200000",
-      rank: "2",
-      date: "2023-02-06",
-    },
-    {
-      username: "jane_doe",
-      country: "UK",
-      grade: "A",
-      views: "30000",
-      ads: "150000",
-      rank: "3",
-      date: "2022-11-15",
-    },
-  ];
+  const [influencers, setInfluencers] = useState({ username1: "", username2: "", username3: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const data = Array.from({ length: 31 }, (_, index) => ({
-    date: `${index + 1}`, // Tanggal dari 1 sampai 31
-    Ferdi: Math.floor(200 + Math.random() * 200), // Data random
-    Ariseta: Math.floor(150 + Math.random() * 150), // Data random
-    MrBeast: Math.floor(100 + Math.random() * 100), // Data random
+  const { data, refetch } = useQuery(
+    {
+      queryKey: ["benchmark", influencers.username1, influencers.username2, influencers.username3],
+      queryFn: () => fetchBenchmarkingData(influencers.username1, influencers.username2, influencers.username3),
+      enabled: false, // Disable automatic fetching, we will trigger it manually
+    }
+  );
+
+  console.log(data);
+
+  const handleInputChange = (e, field) => {
+    setInfluencers({ ...influencers, [field]: e.target.value });
+  };
+
+  const handleCompare = () => {
+    if (influencers.username1 || influencers.username2 || influencers.username3) {
+      refetch().then((res) => {
+        if (!res.data || !res.data.influencers || res.data.influencers.length === 0) {
+          setErrorMessage("One or more usernames do not exist in the database.");
+        } else {
+          setErrorMessage("");
+        }
+      });
+    } else {
+      alert("Please fill in at least one influencer.");
+    }
+  };
+
+  // Prepare `lines` dynamically based on `username`
+  const colors = ["#FF0000", "#00FF00", "#0000FF"]; // Red, Green, Blue
+  const lines = data?.data?.influencers.map((influencer, index) => ({
+      dataKey: influencer.username, // Map `username` as the key
+      color: colors[index % colors.length], // Cycle through the colors
   }));
 
-  const lines = [
-    { dataKey: "Ferdi", color: "#22c55e" }, // Warna hijau
-    { dataKey: "Ariseta", color: "#a855f7" }, // Warna ungu
-    { dataKey: "MrBeast", color: "#f7a855" }, // Warna kun
-  ];
+  const prepareChartData = (data, metricKey) => {
+    // Ambil data history_metrics dari setiap influencer
+    const allMetrics = data?.data?.influencers.flatMap((influencer) =>
+      influencer.history_metrics.map((metric) => ({
+        date: metric.date,
+        [influencer.username]: metric[metricKey], // Gunakan metricKey untuk nilai spesifik (subscriber, view, video)
+      }))
+    );
+  
+    // Gabungkan data berdasarkan tanggal agar setiap `date` memiliki semua username
+    const groupedData = Object.values(
+      allMetrics.reduce((acc, curr) => {
+        if (!acc[curr.date]) acc[curr.date] = { date: curr.date };
+        Object.keys(curr).forEach((key) => {
+          if (key !== "date") acc[curr.date][key] = curr[key];
+        });
+        return acc;
+      }, {})
+    );
+  
+    return groupedData;
+  };
 
   return (
     <div className="w-full bg-gray-100 min-h-screen">
       <Header title={"Compare"} />
 
-      <div className=" flex flex-col gap-4 p-8">
+      <div className="flex flex-col gap-4 p-8">
         <div className="flex flex-col bg-white rounded-lg shadow p-6">
           <div className="flex items-center gap-4">
             <input
               type="text"
               placeholder="Influencer 1"
               className="border border-gray-300 rounded px-4 py-2 text-sm w-1/3"
+              value={influencers.username1}
+              onChange={(e) => handleInputChange(e, "username1")}
             />
             <span>VS</span>
             <input
               type="text"
               placeholder="Influencer 2"
               className="border border-gray-300 rounded px-4 py-2 text-sm w-1/3"
+              value={influencers.username2}
+              onChange={(e) => handleInputChange(e, "username2")}
             />
             <span>VS</span>
             <input
               type="text"
               placeholder="Influencer 3"
               className="border border-gray-300 rounded px-4 py-2 text-sm w-1/3"
+              value={influencers.username3}
+              onChange={(e) => handleInputChange(e, "username3")}
             />
-            <button className="bg-gray-800 text-white px-8 py-2 rounded">
+            <button 
+              className="bg-gray-800 text-white px-8 py-2 rounded"
+              onClick={handleCompare}
+            >
               Compare
             </button>
           </div>
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
-          {influencers.map((influencer, index) => (
-            <CompareCard key={index} influencer={influencer} />
-          ))}
-        </div>
+        {/* Display error message if any */}
+        {errorMessage && <p className="text-red-500">{errorMessage}</p>}
 
-        <div className="grid grid-cols-4 gap-x-4 gap-y-4">
-          <div className="col-span-2">
-            <Chart title={"Subcriber"} data={data} lines={lines} />
+        {/* Render CompareCards if data is available */}
+        {data && data.data.influencers && data.data.influencers.length > 0 ? (
+          <div className="grid grid-cols-3 gap-4">
+            {data.data.influencers.map((influencer, index) => (
+              <CompareCard key={index} influencer={influencer} />
+            ))}
           </div>
-          <div className="col-span-2">
-            <Chart title={"Views"} data={data} lines={lines} />
+        ) : (
+          <p>No data to display</p>
+        )}
+
+        {/* Render Charts */}
+        {data && (
+          <div className="grid grid-cols-3 gap-x-4 gap-y-4">
+            <div className="col-span-1">
+              <Chart
+                title={"Subscriber"}
+                data={prepareChartData(data, "subscriber_count")} // Gunakan subscriber_count
+                lines={lines}
+              />
+            </div>
+            <div className="col-span-1">
+              <Chart
+                title={"Views"}
+                data={prepareChartData(data, "view_count")} // Gunakan view_count
+                lines={lines}
+              />
+            </div>
+            <div className="col-span-1">
+              <Chart
+                title={"Video"}
+                data={prepareChartData(data, "video_count")} // Gunakan video_count
+                lines={lines}
+              />
+            </div>
           </div>
-          <div className="col-start-2 col-span-2">
-            <Chart title={"Ads"} data={data} lines={lines} />
-          </div>
-        </div>
+        )}
+
+        {/* Summary Section */}
+        {data && data.data.influencers && (
+          <table className="table-auto mt-8 w-full text-left bg-white p-4 rounded-lg shadow">
+            <thead>
+              <tr>
+                <th className="px-4 py-2 w-1/6">Estimasi Adsense</th>
+                <th className="px-4 py-2 w-1/5 text-left">{data.data.influencers[0]?.username}</th>
+                <th className="px-4 py-2 w-1/5 text-left">{data.data.influencers[1]?.username}</th>
+                <th className="px-4 py-2 w-1/5 text-left">{data.data.influencers[2]?.username}</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {/* Daily Average */}
+              <tr className="font-semibold">
+                <td className="px-4 py-2 text-left">Daily Average</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Views</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[0]?.daily_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[1]?.daily_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[2]?.daily_avg?.views || "N/A"}</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Revenue (Min-Max)</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[0]?.daily_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[0]?.daily_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[1]?.daily_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[1]?.daily_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[2]?.daily_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[2]?.daily_avg?.estimated_max_revenue || "N/A"}`}</td>
+              </tr>
+
+              {/* Weekly Average */}
+              <tr className="font-semibold">
+                <td className="px-4 py-2 text-left">Weekly Average</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Views</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[0]?.weekly_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[1]?.weekly_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[2]?.weekly_avg?.views || "N/A"}</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Revenue (Min-Max)</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[0]?.weekly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[0]?.weekly_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[1]?.weekly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[1]?.weekly_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[2]?.weekly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[2]?.weekly_avg?.estimated_max_revenue || "N/A"}`}</td>
+              </tr>
+
+              {/* Monthly Average */}
+              <tr className="font-semibold">
+                <td className="px-4 py-2 text-left">Monthly Average</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Views</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[0]?.monthly_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[1]?.monthly_avg?.views || "N/A"}</td>
+                <td className="px-4 py-2 text-left">{data.data.influencers[2]?.monthly_avg?.views || "N/A"}</td>
+              </tr>
+              <tr>
+                <td className="px-4 py-2 text-left">Revenue (Min-Max)</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[0]?.monthly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[0]?.monthly_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[1]?.monthly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[1]?.monthly_avg?.estimated_max_revenue || "N/A"}`}</td>
+                <td className="px-4 py-2 text-left">{`${data.data.influencers[2]?.monthly_avg?.estimated_min_revenue || "N/A"} - ${data.data.influencers[2]?.monthly_avg?.estimated_max_revenue || "N/A"}`}</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

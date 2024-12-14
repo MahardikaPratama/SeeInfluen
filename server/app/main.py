@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.models.database import db  # Import database instance
 from app.config import logger  # Import logger
-# from app.routers import trend, sentiment, recommendations, adsense, ranking, benchmarking, dashboard
-from app.routers import dashboard, ranking, trend, adsense
+from app.routers import dashboard, ranking, trend, adsense, benchmarking
 
 # Initialize FastAPI app
 app = FastAPI(title="Social Media Monitoring API", version="1.0.0")
@@ -27,7 +26,7 @@ app.include_router(trend.router, prefix="/trends", tags=["Trends"])
 # app.include_router(recommendations.router, prefix="/recommendations", tags=["Recommendations"])
 app.include_router(adsense.router, prefix="/adsense", tags=["Adsense"])
 app.include_router(ranking.router, prefix="/rankings", tags=["Rankings"])
-# app.include_router(benchmarking.router, prefix="/benchmarking", tags=["Benchmarking"])
+app.include_router(benchmarking.router, prefix="/benchmarking", tags=["Benchmarking"])
 app.include_router(dashboard.router, prefix="/dashboard", tags=["Dashboard"])
 
 # Health check endpoint
