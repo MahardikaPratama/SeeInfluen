@@ -139,17 +139,17 @@ def get_adsense_data(influencer_id: str, date_start: str, date_end: str) -> Dict
         "date_end": date_end,
         "daily_results": daily_results,
         "daily_avg": {
-            "views": round(daily_avg_views, 2),
+            "views": round(daily_avg_views),
             "estimated_min_revenue": f"Rp. {daily_avg_revenue_min:,.2f}",
             "estimated_max_revenue": f"Rp. {daily_avg_revenue_max:,.2f}"
         },
         "weekly_avg": {
-            "views": round(weekly_avg_views, 2),
+            "views": round(weekly_avg_views),
             "estimated_min_revenue": f"Rp. {weekly_avg_revenue_min:,.2f}",
             "estimated_max_revenue": f"Rp. {weekly_avg_revenue_max:,.2f}"
         },
         "monthly_avg": {
-            "views": round(monthly_avg_views, 2),
+            "views": round(monthly_avg_views),
             "estimated_min_revenue": f"Rp. {monthly_avg_revenue_min:,.2f}",
             "estimated_max_revenue": f"Rp. {monthly_avg_revenue_max:,.2f}"
         }

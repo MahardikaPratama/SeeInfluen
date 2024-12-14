@@ -9,13 +9,14 @@ from fastapi import HTTPException
 from collections import Counter
 from datetime import datetime
 import logging
+from app.config import redis_host, redis_port, redis_db
 
 # Setup logging
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
-# Setup Redis connection
-redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
+# Setup koneksi Redis menggunakan konfigurasi dari .env
+redis_client = redis.StrictRedis(host=redis_host, port=redis_port, db=redis_db, decode_responses=True)
 
 # Setup IndoBERT Model for Bahasa Indonesia
 tokenizer = BertTokenizer.from_pretrained('indolem/indobert-base-uncased')
