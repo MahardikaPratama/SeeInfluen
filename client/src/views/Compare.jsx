@@ -23,26 +23,28 @@ function Compare() {
       rank: "2",
       date: "2023-02-06",
     },
+    {
+      username: "jane_doe",
+      country: "UK",
+      grade: "A",
+      views: "30000",
+      ads: "150000",
+      rank: "3",
+      date: "2022-11-15",
+    },
   ];
 
-  const data = [
-    { month: "Jan", Ferdi: 200, Ariseta: 150 },
-    { month: "Feb", Ferdi: 210, Ariseta: 160 },
-    { month: "Mar", Ferdi: 220, Ariseta: 165 },
-    { month: "Apr", Ferdi: 240, Ariseta: 170 },
-    { month: "May", Ferdi: 260, Ariseta: 175 },
-    { month: "Jun", Ferdi: 280, Ariseta: 180 },
-    { month: "Jul", Ferdi: 300, Ariseta: 190 },
-    { month: "Aug", Ferdi: 320, Ariseta: 200 },
-    { month: "Sep", Ferdi: 340, Ariseta: 210 },
-    { month: "Oct", Ferdi: 360, Ariseta: 220 },
-    { month: "Nov", Ferdi: 380, Ariseta: 230 },
-    { month: "Dec", Ferdi: 400, Ariseta: 240 },
-  ];
+  const data = Array.from({ length: 31 }, (_, index) => ({
+    date: `${index + 1}`, // Tanggal dari 1 sampai 31
+    Ferdi: Math.floor(200 + Math.random() * 200), // Data random
+    Ariseta: Math.floor(150 + Math.random() * 150), // Data random
+    MrBeast: Math.floor(100 + Math.random() * 100), // Data random
+  }));
 
   const lines = [
     { dataKey: "Ferdi", color: "#22c55e" }, // Warna hijau
     { dataKey: "Ariseta", color: "#a855f7" }, // Warna ungu
+    { dataKey: "MrBeast", color: "#f7a855" }, // Warna kun
   ];
 
   return (
@@ -75,7 +77,7 @@ function Compare() {
           </div>
         </div>
 
-        <div className="flex flex-row gap-4">
+        <div className="grid grid-cols-3 gap-4">
           {influencers.map((influencer, index) => (
             <CompareCard key={index} influencer={influencer} />
           ))}
